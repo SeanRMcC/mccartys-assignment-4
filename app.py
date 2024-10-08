@@ -12,7 +12,7 @@ nltk.download('stopwords')
 app = Flask(__name__)
 
 
-# TODO: Fetch dataset, initialize vectorizer and LSA here
+# Fetch dataset, initialize vectorizer and LSA here
 
 newsgroups = fetch_20newsgroups(subset="all")
 docs = newsgroups.data
@@ -31,7 +31,7 @@ def search_engine(query):
     Input: query (str)
     Output: documents (list), similarities (list), indices (list)
     """
-    # TODO: Implement search engine here
+    # Implement search engine here
     # return documents, similarities, indices 
 
     query_vec = vectorizer.transform([query])

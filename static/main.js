@@ -39,4 +39,19 @@ function displayChart(data) {
     //        - similarities (list) - list of similarities
     // TODO: Implement function to display chart here
     //       There is a canvas element in the HTML file with the id 'similarity-chart'
+    const plotData = [
+        {
+            x: data.indices.map(i => `Document #${i}`),
+            y: data.similarities,
+            type: "bar"
+        }
+    ]
+
+    const layout = {
+        title: "Cosine Similarity for Top 5 Documents"
+    }
+
+    Plotly.newPlot("similarity-chart", plotData)
+
+    console.log("plot has been rendered")
 }
