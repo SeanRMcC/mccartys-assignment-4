@@ -14,6 +14,16 @@ app = Flask(__name__)
 
 # TODO: Fetch dataset, initialize vectorizer and LSA here
 
+newsgroups = fetch_20newsgroups(subset="all")
+docs = newsgroups.data
+
+vectorizer = TfidfVectorizer(stop_words="english")
+tfidf_matrix = vectorizer.fit_transform(docs)
+
+reduced_rank = 500
+svd = TruncatedSVD(n_components=reduced_rank)
+reduced_tfidf = svd.fit_transform(tfidf_matrix)
+
 
 def search_engine(query):
     """
@@ -23,6 +33,23 @@ def search_engine(query):
     """
     # TODO: Implement search engine here
     # return documents, similarities, indices 
+
+    query_vec = vectorizer.transform([query])
+    query_vec_red = svd.transform(query_vec)
+
+    similarities = cosine_similarity(query_vec_red, reduced_tfidf).flatten()
+
+    sim_index_pairs = [[similarities[i], i] for i in range(len(similarities))]
+
+    sim_index_pairs.sort(reverse=True)
+
+    top5 = sim_index_pairs[:5]
+
+    top_docs = [docs[i] for _, i in top5]
+    top_similarities = [sim for sim, _ in top5]
+    top_indices = [i for _, i in top5]
+
+    return top_docs, top_similarities, top_indices
 
 @app.route('/')
 def index():
