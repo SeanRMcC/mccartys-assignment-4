@@ -43,7 +43,10 @@ function displayChart(data) {
         {
             x: data.indices.map(i => `Document #${i}`),
             y: data.similarities,
-            type: "bar"
+            type: "bar",
+            marker: {
+                color: "red"
+            }
         }
     ]
 
@@ -52,6 +55,4 @@ function displayChart(data) {
     }
 
     Plotly.newPlot("similarity-chart", plotData)
-
-    console.log("plot has been rendered")
 }
