@@ -20,7 +20,7 @@ docs = newsgroups.data
 vectorizer = TfidfVectorizer(stop_words="english")
 tfidf_matrix = vectorizer.fit_transform(docs)
 
-reduced_rank = 500
+reduced_rank = 100
 svd = TruncatedSVD(n_components=reduced_rank)
 reduced_tfidf = svd.fit_transform(tfidf_matrix)
 
